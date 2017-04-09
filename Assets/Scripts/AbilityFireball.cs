@@ -7,11 +7,16 @@ public class AbilityFireball : Ability {
   [SerializeField]
   private float _damage;
 
-  public override void Activate() {}
+  public override bool Activate(out Ability state) {
+    state = this;
+    return true;
+  }
   
-  public override void SelectTarget(Character character) {
+  public override bool SelectTarget(Character character, out Ability state) {
     character.TakeDamage(_damage);
     Debug.Log(character.Name + " took " + _damage + " damage");
+    state = null;
+    return true;
   }
 
   public override string Name() {

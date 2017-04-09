@@ -37,8 +37,7 @@ public class Player : MonoBehaviour {
   }
 
   private void ActivateAbility(Ability ability) {
-    _ability = ability;
-    ability.Activate();
+    ability.Activate(out _ability);
   }
 
   private bool TrySelectCharacter(Vector3 mouse_position) {
@@ -53,7 +52,7 @@ public class Player : MonoBehaviour {
 
   private void SelectTarget(Character character) {
     if (_ability != null) {
-      _ability.SelectTarget(character);
+      _ability.SelectTarget(character, out _ability);
     }
   }
 }

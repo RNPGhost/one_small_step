@@ -7,6 +7,6 @@ public abstract class Ability : MonoBehaviour {
   private Character _owner;
 
   public abstract string Name();
-  public abstract void Activate();
-  public abstract void SelectTarget(Character character);
+  public abstract bool Activate(out Ability state);
+  public virtual bool SelectTarget(Character character, out Ability state) { state = null; return false; }
 }
