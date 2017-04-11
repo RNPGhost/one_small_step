@@ -12,31 +12,33 @@ public class AbilityFireball : Ability {
   private float _recovery_duration;
   [SerializeField]
   private float _cooldown_duration;
-  
-  private PhaseLoop _phases;
-  private float _next_phase_change;
-  private bool _allowed_phase_transition = false;
 
-  public AbilityFireball() {
+  public override string Name() {
+    return "Fireball";
+  }
+
+  private void Start() {
     _phases = new PhaseLoop(new Phase[] {
       new Phase(PhaseName.Ready),
       new Phase(PhaseName.Preparation, _preparation_duration),
       new Phase(PhaseName.Recovery, _recovery_duration),
       new Phase(PhaseName.Cooldown, _cooldown_duration)
       });
-
-    _next_phase_change = Time.time;
-  }
-
-  public override bool Activate(out Ability state) {
-    state = this;
-    return true;
   }
   
+  public override bool Select(out Ability state) {
+    if (_current_phase == PhaseName.Ready) {
+      state = this;
+      return true;
+    } else {
+      state = null;
+      return false;
+    }
+  }
+
   public override bool SelectTarget(Character character, out Ability state) {
-    if (_phases.Current().Name == PhaseName.Ready) {
-      _next_phase_change = Time.time;
-      _allowed_phase_transition = true;
+    if (_current_phase == PhaseName.Ready) {
+      Activate();
       state = null;
       return true;
     } else {
@@ -45,18 +47,10 @@ public class AbilityFireball : Ability {
     }
   }
 
-  public override string Name() {
-    return "Fireball";
-  }
-
-  public void Update() {
-    while (_allowed_phase_transition && Time.time >= _next_phase_change) {
-      TransitionPhase();
+  protected override void EnterNewPhase() {
+    Debug.Log("Entered phase " + _current_phase);
+    if (_current_phase == PhaseName.Ready) {
+      Deactivate();
     }
-  }
-
-  private void TransitionPhase() {
-    Phase phase = _phases.Next();
-    _next_phase_change += phase.Duration;
   }
 }

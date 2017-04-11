@@ -12,14 +12,15 @@ public class Player : MonoBehaviour {
   private UIController _ui_controller;
 
   private Ability _ability = null;
+  
+  private readonly object _sync_lock = new object();
 
   public string getId() {
     return _id;
   }
 
-  private readonly object syncLock = new object();
   public void MouseClicked(Vector3 mouse_position) {
-    lock (syncLock) {
+    lock (_sync_lock) {
       if (!TrySelectButton(mouse_position)) {
         TrySelectCharacter(mouse_position);
       }
@@ -37,7 +38,7 @@ public class Player : MonoBehaviour {
   }
 
   private void ActivateAbility(Ability ability) {
-    ability.Activate(out _ability);
+    ability.Select(out _ability);
   }
 
   private bool TrySelectCharacter(Vector3 mouse_position) {
