@@ -14,21 +14,19 @@ public class PhaseLoop {
     return _phases[_index];
   }
 
-  public Phase First() {
-    _index = 0;
-    return Current();
-  }
-
-  public Phase Next() {
+  public void GoToNext() {
     _index++;
     if (_index >= _phases.Length) {
       _index -= _phases.Length;
     }
-    return Current();
   }
 
-  public Phase Last() {
-    _index = _phases.Length - 1;
-    return Current();
+  public void GoTo(PhaseName name) {
+    for (int i = 0; i < _phases.Length; i++) {
+      if (_phases[i].Name == name) {
+        _index = i;
+        break;
+      }
+    }    
   }
 }

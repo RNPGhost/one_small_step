@@ -22,7 +22,7 @@ public abstract class Ability : MonoBehaviour {
   
   public virtual bool Interrupt(out Ability state) {
     if (Interruptable()) {
-      Deactivate();
+      Pause();
       PutOnCooldown();
       state = null;
       return true;
@@ -37,33 +37,46 @@ public abstract class Ability : MonoBehaviour {
   }
 
   protected virtual void PutOnCooldown() {
-    Phase phase = _phases.Last();
-    _current_phase = phase.Name;
-    EnterNewPhase();
+    _next_phase_change = Time.time;
+    GoToPhase(PhaseName.Cooldown);
   }
 
-  protected void Activate() {
+  protected void UnpausePhaseTransition() {
     _next_phase_change = Time.time;
-    TransitionPhase();
+    GoToNextPhase();
     _phase_transition_allowed = true;
   }
   
-  protected void Deactivate() {
+  protected void PausePhaseTransition() {
     _phase_transition_allowed = false;
   }
 
   private void Update() {
     while (_phase_transition_allowed && Time.time >= _next_phase_change) {
-      TransitionPhase();
+      GoToNextPhase();
     }
   }
 
-  private void TransitionPhase() {
-    Phase phase = _phases.Next();
-    _current_phase = phase.Name;
-    _next_phase_change += phase.Duration;
-    EnterNewPhase();
+  private void GoToNextPhase() {
+    _phases.GoToNext();
+    ChangePhase();
   }
 
-  protected abstract void EnterNewPhase();
+  private void GoToPhase(PhaseName name) {
+    _phases.GoTo(name);
+    ChangePhase();
+  }
+
+  private void ChangePhase() {
+    Phase phase = _phases.Current();
+    UpdatePhaseVariables(phase);
+    OnEnterNewPhase(phase);
+  }
+
+  private void UpdatePhaseVariables(Phase phase) {
+    _current_phase = phase.Name;
+    _next_phase_change += phase.Duration;
+  }
+
+  protected abstract void OnEnterNewPhase();
 }

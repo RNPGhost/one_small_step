@@ -38,7 +38,7 @@ public class AbilityFireball : Ability {
 
   public override bool SelectTarget(Character character, out Ability state) {
     if (_current_phase == PhaseName.Ready) {
-      Activate();
+      UnpausePhaseTransition();
       state = null;
       return true;
     } else {
@@ -47,10 +47,10 @@ public class AbilityFireball : Ability {
     }
   }
 
-  protected override void EnterNewPhase() {
-    Debug.Log("Entered phase " + _current_phase);
-    if (_current_phase == PhaseName.Ready) {
-      Deactivate();
+  protected override void OnEnterNewPhase(Phase phase) {
+    Debug.Log("Entered phase " + phase);
+    if (phase.Name == PhaseName.Ready) {
+      PausePhaseTransition();
     }
   }
 }
