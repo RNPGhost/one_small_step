@@ -59,18 +59,17 @@ public abstract class Ability : MonoBehaviour {
 
   private void GoToNextPhase() {
     _phases.GoToNext();
-    PhaseChanged();
+    PhaseUpdate(_phases.Current());
   }
 
   private void GoToPhase(PhaseName name) {
     _phases.GoTo(name);
-    PhaseChanged();
+    PhaseUpdate(_phases.Current());
   }
 
-  private void PhaseChanged() {
-    Phase phase = _phases.Current();
+  private void PhaseUpdate(Phase phase) {
     UpdatePhaseVariables(phase);
-    OnEnterNewPhase(phase);
+    AbilitySpecificPhaseUpdate(phase);
   }
 
   private void UpdatePhaseVariables(Phase phase) {
@@ -78,5 +77,5 @@ public abstract class Ability : MonoBehaviour {
     _next_phase_change += phase.Duration;
   }
 
-  protected abstract void OnEnterNewPhase();
+  protected abstract void AbilitySpecificPhaseUpdate();
 }

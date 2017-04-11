@@ -47,7 +47,7 @@ public class AbilityFireball : Ability {
     }
   }
 
-  protected override void OnEnterNewPhase(Phase phase) {
+  protected override void AbilitySpecificPhaseUpdate(Phase phase) {
     Debug.Log("Entered phase " + phase);
     if (phase.Name == PhaseName.Ready) {
       PausePhaseTransition();
