@@ -20,8 +20,8 @@ public abstract class Ability : MonoBehaviour {
     return false;
   }
   
-  public virtual bool Interupt(out Ability state) {
-    if (Interuptable()) {
+  public virtual bool Interrupt(out Ability state) {
+    if (Interruptable()) {
       Deactivate();
       PutOnCooldown();
       state = null;
@@ -32,7 +32,7 @@ public abstract class Ability : MonoBehaviour {
     }
   }
 
-  protected virtual bool Interuptable() {
+  protected virtual bool Interruptable() {
     return (!(_current_phase == PhaseName.Ready || _current_phase == PhaseName.Cooldown));
   }
 

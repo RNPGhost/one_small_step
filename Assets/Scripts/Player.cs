@@ -30,14 +30,14 @@ public class Player : MonoBehaviour {
   private bool TrySelectButton(Vector3 mouse_position) {
     AbilityButton selected_button;
     if (_ui_controller.TrySelectAbilityButton(mouse_position, out selected_button)) {
-      ActivateAbility(selected_button.GetAbility());
+      SelectAbility(selected_button.GetAbility());
       return true;
     }
 
     return false;
   }
 
-  private void ActivateAbility(Ability ability) {
+  private void SelectAbility(Ability ability) {
     ability.Select(out _ability);
   }
 
