@@ -20,7 +20,7 @@ public class AbilityFireball : Ability {
   }
 
   private void Start() {
-    _phases = new PhaseLoop(new Phase[] {
+    SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
       new Phase(PhaseName.Preparation, _preparation_duration),
       new Phase(PhaseName.Recovery, _recovery_duration),
@@ -29,7 +29,7 @@ public class AbilityFireball : Ability {
   }
   
   public override bool Select(out Ability state) {
-    if (!_owner.AbilityInProgress() && _current_phase == PhaseName.Ready) {
+    if (!_owner.AbilityInProgress() && GetCurrentPhaseName() == PhaseName.Ready) {
       state = this;
       return true;
     }
@@ -41,7 +41,7 @@ public class AbilityFireball : Ability {
   public override bool SelectTarget(Character character, out Ability state) {
     Character target = character.AcquireTarget();
     if (!_owner.AbilityInProgress() && 
-          _current_phase == PhaseName.Ready && 
+          GetCurrentPhaseName() == PhaseName.Ready && 
           IsValidTarget(target)) {
       _owner.AddActiveAbility(this);
       _target = target;

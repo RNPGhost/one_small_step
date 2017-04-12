@@ -6,8 +6,8 @@ public abstract class Ability : MonoBehaviour {
   [SerializeField]
   protected Character _owner;
   
-  protected PhaseLoop _phases;
-  protected PhaseName _current_phase;
+  private PhaseLoop _phases;
+  private PhaseName _current_phase_name;
   private float _next_phase_change;
   private bool _phase_transition_allowed = false;
 
@@ -30,9 +30,9 @@ public abstract class Ability : MonoBehaviour {
       PausePhaseTransition();
       PutOnCooldown();
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   protected virtual bool Interruptable() {
@@ -59,6 +59,10 @@ public abstract class Ability : MonoBehaviour {
     }
   }
 
+  protected PhaseName GetCurrentPhaseName() {
+    return _current_phase_name;
+  }
+
   private void GoToNextPhase() {
     _phases.GoToNext();
     PhaseUpdate(_phases.Current());
@@ -75,9 +79,13 @@ public abstract class Ability : MonoBehaviour {
   }
 
   private void UpdatePhaseVariables(Phase phase) {
-    _current_phase = phase.Name;
+    _current_phase_name = phase.Name;
     _next_phase_change += phase.Duration;
   }
 
   protected abstract void AbilitySpecificPhaseUpdate(Phase phase);
+
+  protected void SetPhases(Phases[] phases) {
+    _phases = new PhaseLoop(phases);
+  }
 }
