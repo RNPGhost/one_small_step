@@ -27,7 +27,7 @@ public class AbilityFireball : Ability {
       new Phase(PhaseName.Ready),
       new Phase(PhaseName.Preparation, _preparation_duration),
       new Phase(PhaseName.Action, _action_duration),
-      new Phase(Phasename.Effects, 0),
+      new Phase(PhaseName.Effects, 0),
       new Phase(PhaseName.Recovery, _recovery_duration),
       new Phase(PhaseName.Cooldown, _cooldown_duration)
       });
@@ -80,7 +80,7 @@ public class AbilityFireball : Ability {
         break;
       case PhaseName.Effects:
         if (_target != null) {
-          target.TakeDamage(_damage);
+          _target.TakeDamage(_damage);
         }
         break;
       case PhaseName.Recovery:

@@ -90,7 +90,7 @@ public abstract class Ability : MonoBehaviour {
 
   protected abstract void AbilitySpecificPhaseUpdate(Phase phase);
 
-  protected void SetPhases(Phases[] phases) {
+  protected void SetPhases(Phase[] phases) {
     _phases = new PhaseLoop(phases);
   }
 }

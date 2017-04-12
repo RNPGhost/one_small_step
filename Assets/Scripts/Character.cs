@@ -68,7 +68,7 @@ public class Character : MonoBehaviour {
     if (index >= 0) {
       _targetable_characters.RemoveAt(index);
       if (_targetable_characters.Count > 0) {
-        _targetable_character = _targetable_character[_targetable_characters.Count - 1];
+        _targetable_character = _targetable_characters[_targetable_characters.Count - 1];
       } else {
         _targetable_character = this;
       }
@@ -83,9 +83,9 @@ public class Character : MonoBehaviour {
     return null;
   }
 
-  public void Interupt() {
+  public void Interrupt() {
     foreach (Ability ability in _active_abilities) {
-      ability.Interupt();
+      ability.Interrupt();
     }
   }
 
