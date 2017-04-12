@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour {
   [SerializeField]
-  private Character _owner;
-  public Character Owner {
+  private Character _owning_character;
+  public Character OwningCharacter {
     get {
-      return _owner;
+      return _owning_character;
     }
   }
 

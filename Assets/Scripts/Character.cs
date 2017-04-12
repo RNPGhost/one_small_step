@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
   [SerializeField]
-  private Player _owner;
-  public Player Owner {
+  private Player _owning_player;
+  public Player OwningPlayer {
     get {
-      return _owner;
+      return _owning_player;
     }
   }
   [SerializeField]
