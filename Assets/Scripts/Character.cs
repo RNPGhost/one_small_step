@@ -33,6 +33,8 @@ public class Character : MonoBehaviour {
       _targetable_character = value;
     }
   }
+
+  private List<Ability> _active_abilities = new List<Ability>();
   
   public Character AcquireTarget() {
     if (_targetable) {
@@ -40,6 +42,18 @@ public class Character : MonoBehaviour {
     } else {
       return null;
     }
+  }
+
+  public void AddActiveAbility(Ability ability) {
+    _active_abilities.Add(ability);
+  }
+
+  public bool RemoveActiveAbility(Ability ability) {
+    return _active_abilities.Remove(ability);
+  }
+
+  public bool AbilityInProgress() {
+    return _active_abilities.Count > 0;
   }
 
   public void Start() {

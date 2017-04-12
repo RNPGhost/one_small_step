@@ -29,18 +29,21 @@ public class AbilityFireball : Ability {
   }
   
   public override bool Select(out Ability state) {
-    if (_current_phase == PhaseName.Ready) {
+    if (!_owner.AbilityInProgress() && _current_phase == PhaseName.Ready) {
       state = this;
       return true;
-    } else {
-      state = null;
-      return false;
     }
+
+    state = null;
+    return false;
   }
 
   public override bool SelectTarget(Character character, out Ability state) {
     Character target = character.AcquireTarget();
-    if (_current_phase == PhaseName.Ready && IsValidTarget(target)) {
+    if (!_owner.AbilityInProgress() && 
+          _current_phase == PhaseName.Ready && 
+          IsValidTarget(target)) {
+      _owner.AddActiveAbility(this);
       _target = target;
       UnpausePhaseTransition();
       state = null;
@@ -61,6 +64,7 @@ public class AbilityFireball : Ability {
     switch (phase.Name) {
       case PhaseName.Ready:
         PausePhaseTransition();
+        _owner.RemoveActiveAbility(this);
         break;
       case PhaseName.Preparation:
         break;
