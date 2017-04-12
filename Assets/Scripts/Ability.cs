@@ -12,22 +12,25 @@ public abstract class Ability : MonoBehaviour {
   private bool _phase_transition_allowed = false;
 
   public abstract string Name();
-  
+
+  // returns whether this action was successful
+  // if more input is required, state is set to this, otherwise state is set to null
   public abstract bool Select(out Ability state);
 
+  // returns whether this action was successful
+  // if more input is required, state is set to this, otherwise state is set to null
   public virtual bool SelectTarget(Character character, out Ability state) {
     state = null;
     return false;
   }
-  
-  public virtual bool Interrupt(out Ability state) {
+
+  // returns whether this action was successful
+  public virtual bool Interrupt() {
     if (Interruptable()) {
-      Pause();
+      PausePhaseTransition();
       PutOnCooldown();
-      state = null;
       return true;
     } else {
-      state = this;
       return false;
     }
   }
@@ -43,7 +46,6 @@ public abstract class Ability : MonoBehaviour {
 
   protected void UnpausePhaseTransition() {
     _next_phase_change = Time.time;
-    GoToNextPhase();
     _phase_transition_allowed = true;
   }
   
@@ -77,5 +79,5 @@ public abstract class Ability : MonoBehaviour {
     _next_phase_change += phase.Duration;
   }
 
-  protected abstract void AbilitySpecificPhaseUpdate();
+  protected abstract void AbilitySpecificPhaseUpdate(Phase phase);
 }

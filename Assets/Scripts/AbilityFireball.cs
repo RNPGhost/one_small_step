@@ -13,6 +13,8 @@ public class AbilityFireball : Ability {
   [SerializeField]
   private float _cooldown_duration;
 
+  private Character _target;
+
   public override string Name() {
     return "Fireball";
   }
@@ -38,6 +40,7 @@ public class AbilityFireball : Ability {
 
   public override bool SelectTarget(Character character, out Ability state) {
     if (_current_phase == PhaseName.Ready) {
+      _target = character;
       UnpausePhaseTransition();
       state = null;
       return true;
@@ -49,8 +52,19 @@ public class AbilityFireball : Ability {
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
     Debug.Log("Entered phase " + phase);
-    if (phase.Name == PhaseName.Ready) {
-      PausePhaseTransition();
+    switch (phase.Name) {
+      case PhaseName.Ready:
+        PausePhaseTransition();
+        break;
+      case PhaseName.Preparation:
+        break;
+      case PhaseName.Recovery:
+        _target.TakeDamage(_damage);
+        break;
+      case PhaseName.Cooldown:
+        break;
+      default:
+        break;
     }
   }
 }
