@@ -4,8 +4,13 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour {
   [SerializeField]
-  protected Character _owner;
-  
+  private Character _owner;
+  public Character Owner {
+    get {
+      return _owner;
+    }
+  }
+
   private PhaseLoop _phases;
   private PhaseName _current_phase_name;
   private float _next_phase_change;
