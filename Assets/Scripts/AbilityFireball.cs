@@ -43,7 +43,6 @@ public class AbilityFireball : Ability {
     if (!OwningCharacter.AbilityInProgress() && 
           GetCurrentPhaseName() == PhaseName.Ready && 
           IsValidTarget(target)) {
-      OwningCharacter.AddActiveAbility(this);
       _target = target;
       UnpausePhaseTransition();
       state = null;
@@ -64,14 +63,15 @@ public class AbilityFireball : Ability {
     switch (phase.Name) {
       case PhaseName.Ready:
         PausePhaseTransition();
-        OwningCharacter.RemoveActiveAbility(this);
         break;
       case PhaseName.Preparation:
+        OwningCharacter.AddActiveAbility(this);
         break;
       case PhaseName.Recovery:
         _target.TakeDamage(_damage);
         break;
       case PhaseName.Cooldown:
+        OwningCharacter.RemoveActiveAbility(this);
         break;
       default:
         break;
