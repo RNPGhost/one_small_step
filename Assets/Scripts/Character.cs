@@ -21,27 +21,46 @@ public class Character : MonoBehaviour {
   private float _health;
 
   private bool _targetable = true;
-  public bool Targetable {
-    set {
-      _targetable = value;
-    }
-  }
-
+  private int _set_untargetable_count = 0;
   private Character _targetable_character;
-  public Character Targetable_Character {
-    set {
-      _targetable_character = value;
+  private List<Character> _targetable_characters = new List<Character>();
+  private List<Ability> _active_abilities = new List<Ability>();
+
+  public void SetUntargetable() {
+    _set_untargetable_count++;
+    _targetable = false;
+  }
+
+  public void UnsetUntargetable() {
+    _set_untargetable_count--;
+    if (_set_untargetable_count == 0) {
+      _targetable = true;
     }
   }
 
-  private List<Ability> _active_abilities = new List<Ability>();
-  
+  public void SetTargetableCharacter(Character character) {
+    _targetable_characters.Add(character);
+    _targetable_character = character;
+  }
+
+  public void UnsetTargetableCharacter(Character character) {
+    int index = _targetable_characters.LastIndexOf(character);
+    if (index >= 0) {
+      _targetable_characters.RemoveAt(index);
+      if (_targetable_characters.Count > 0) {
+        _targetable_character = _targetable_character[_targetable_characters.Count - 1];
+      } else {
+        _targetable_character = this;
+      }
+    }
+  }
+
   public Character AcquireTarget() {
     if (_targetable) {
       return _targetable_character;
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   public void AddActiveAbility(Ability ability) {
