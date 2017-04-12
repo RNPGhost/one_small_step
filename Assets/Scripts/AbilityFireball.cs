@@ -11,8 +11,11 @@ public class AbilityFireball : Ability {
   [SerializeField]
   private float _recovery_duration;
   [SerializeField]
+  private float _action_duration;
+  [SerializeField]
   private float _cooldown_duration;
 
+  private Character _selected_character;
   private Character _target;
 
   public override string Name() {
@@ -23,6 +26,8 @@ public class AbilityFireball : Ability {
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
       new Phase(PhaseName.Preparation, _preparation_duration),
+      new Phase(PhaseName.Action, _action_duration),
+      new Phase(Phasename.Effects, 0),
       new Phase(PhaseName.Recovery, _recovery_duration),
       new Phase(PhaseName.Cooldown, _cooldown_duration)
       });
@@ -39,11 +44,10 @@ public class AbilityFireball : Ability {
   }
 
   public override bool SelectTarget(Character character, out Ability state) {
-    Character target = character.AcquireTarget();
-    if (!OwningCharacter.AbilityInProgress() && 
-          GetCurrentPhaseName() == PhaseName.Ready && 
-          IsValidTarget(target)) {
-      _target = target;
+    if (!OwningCharacter.AbilityInProgress()
+        && GetCurrentPhaseName() == PhaseName.Ready
+        && IsValidTarget(character)) {
+      _selected_character = character;
       UnpausePhaseTransition();
       state = null;
       return true;
@@ -54,8 +58,12 @@ public class AbilityFireball : Ability {
   }
 
   private bool IsValidTarget(Character character) {
-    return (character != null &&
-            character.OwningPlayer.Id != OwningCharacter.OwningPlayer.Id);
+    return (character.OwningPlayer.Id != OwningCharacter.OwningPlayer.Id
+            && character.Targetable);
+  }
+
+  protected override bool Interruptable() {
+    return GetCurrentPhaseName() == PhaseName.Preparation;
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
@@ -67,8 +75,15 @@ public class AbilityFireball : Ability {
       case PhaseName.Preparation:
         OwningCharacter.AddActiveAbility(this);
         break;
+      case PhaseName.Action:
+        _target = _selected_character.AcquireTarget();
+        break;
+      case PhaseName.Effects:
+        if (_target != null) {
+          target.TakeDamage(_damage);
+        }
+        break;
       case PhaseName.Recovery:
-        _target.TakeDamage(_damage);
         break;
       case PhaseName.Cooldown:
         OwningCharacter.RemoveActiveAbility(this);

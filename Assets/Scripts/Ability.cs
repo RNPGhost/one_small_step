@@ -41,7 +41,7 @@ public abstract class Ability : MonoBehaviour {
   }
 
   protected virtual bool Interruptable() {
-    return (!(_current_phase == PhaseName.Ready || _current_phase == PhaseName.Cooldown));
+    return (!(GetCurrentPhaseName() == PhaseName.Ready || GetCurrentPhaseName() == PhaseName.Cooldown));
   }
 
   protected virtual void PutOnCooldown() {

@@ -27,6 +27,8 @@ public struct Phase {
 public enum PhaseName {
   Ready,
   Preparation,
+  Action,
+  Effects,
   Recovery,
   Cooldown
 }

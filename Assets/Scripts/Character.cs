@@ -26,6 +26,12 @@ public class Character : MonoBehaviour {
   private List<Character> _targetable_characters = new List<Character>();
   private List<Ability> _active_abilities = new List<Ability>();
 
+  public bool Targetable {
+    get {
+      return _targetable;
+    }
+  }
+
   public void SetUntargetable() {
     _set_untargetable_count++;
     _targetable = false;

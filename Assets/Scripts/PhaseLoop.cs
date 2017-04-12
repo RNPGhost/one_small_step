@@ -6,7 +6,7 @@ public class PhaseLoop {
   private int _index = 0;
   private Phase[] _phases;
 
-	public PhaseLoop(Phase[] phases) {
+  public PhaseLoop(Phase[] phases) {
     _phases = phases;
   }
 
