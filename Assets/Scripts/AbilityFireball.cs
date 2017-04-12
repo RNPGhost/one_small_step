@@ -9,9 +9,9 @@ public class AbilityFireball : Ability {
   [SerializeField]
   private float _preparation_duration;
   [SerializeField]
-  private float _recovery_duration;
-  [SerializeField]
   private float _action_duration;
+  [SerializeField]
+  private float _recovery_duration;
   [SerializeField]
   private float _cooldown_duration;
 
