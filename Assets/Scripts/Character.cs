@@ -23,6 +23,8 @@ public class Character : MonoBehaviour {
   private bool _targetable = true;
   private int _set_untargetable_count = 0;
   private Character _targetable_character;
+  private bool _damage_immune = false;
+  private int _set_damage_immune_count = 0;
   private List<Character> _targetable_characters = new List<Character>();
   private List<Ability> _active_abilities = new List<Ability>();
 
@@ -41,6 +43,18 @@ public class Character : MonoBehaviour {
     _set_untargetable_count--;
     if (_set_untargetable_count == 0) {
       _targetable = true;
+    }
+  }
+
+  public void SetDamageImmune() {
+    _set_damage_immune_count++;
+    _damage_immune = true;
+  }
+
+  public void UnsetDamageImmune() {
+    _set_damage_immune_count--;
+    if (_set_damage_immune_count == 0) {
+      _damage_immune = false;
     }
   }
 
@@ -92,7 +106,9 @@ public class Character : MonoBehaviour {
   }
 
   public void TakeDamage(float damage) {
-    Debug.Log(_name + " took " + damage + " damage");
-    _health = Mathf.Max(_health - damage, 0);
+    if (!_damage_immune) {
+      Debug.Log(_name + " took " + damage + " damage");
+      _health = Mathf.Max(_health - damage, 0);
+    }
   }
 }
