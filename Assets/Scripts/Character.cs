@@ -63,6 +63,12 @@ public class Character : MonoBehaviour {
     return null;
   }
 
+  public void Interupt() {
+    foreach (Ability ability in _active_abilities) {
+      ability.Interupt();
+    }
+  }
+
   public void AddActiveAbility(Ability ability) {
     _active_abilities.Add(ability);
   }
