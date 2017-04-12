@@ -15,8 +15,10 @@ public class Player : MonoBehaviour {
   
   private readonly object _sync_lock = new object();
 
-  public string getId() {
-    return _id;
+  public string Id {
+    get {
+      return _id;
+    }
   }
 
   public void MouseClicked(Vector3 mouse_position) {

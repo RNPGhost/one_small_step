@@ -39,19 +39,25 @@ public class AbilityFireball : Ability {
   }
 
   public override bool SelectTarget(Character character, out Ability state) {
-    if (_current_phase == PhaseName.Ready) {
-      _target = character;
+    Character target = character.AcquireTarget();
+    if (_current_phase == PhaseName.Ready && IsValidTarget(target)) {
+      _target = target;
       UnpausePhaseTransition();
       state = null;
       return true;
-    } else {
-      state = this;
-      return false;
     }
+
+    state = this;
+    return false;
+  }
+
+  private bool IsValidTarget(Character character) {
+    return (character != null &&
+            character.Owner.Id != _owner.Owner.Id);
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
-    Debug.Log("Entered phase " + phase);
+    Debug.Log("Entered phase " + phase.Name);
     switch (phase.Name) {
       case PhaseName.Ready:
         PausePhaseTransition();
