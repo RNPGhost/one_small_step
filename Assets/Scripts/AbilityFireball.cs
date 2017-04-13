@@ -34,7 +34,8 @@ public class AbilityFireball : Ability {
   }
   
   public override bool Select(out Ability state) {
-    if (!OwningCharacter.AbilityInProgress() && GetCurrentPhaseName() == PhaseName.Ready) {
+    if (OwningCharacter.AbilitiesInProgressCount() == 0 
+        && GetCurrentPhaseName() == PhaseName.Ready) {
       state = this;
       return true;
     }
@@ -44,7 +45,7 @@ public class AbilityFireball : Ability {
   }
 
   public override bool SelectTarget(Character character, out Ability state) {
-    if (!OwningCharacter.AbilityInProgress()
+    if (OwningCharacter.AbilitiesInProgressCount() == 0
         && GetCurrentPhaseName() == PhaseName.Ready
         && IsValidTarget(character)) {
       _selected_character = character;

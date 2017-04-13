@@ -103,8 +103,8 @@ public class Character : MonoBehaviour {
     return _active_abilities.Remove(ability);
   }
 
-  public bool AbilityInProgress() {
-    return _active_abilities.Count > 0;
+  public int AbilitiesInProgressCount() {
+    return _active_abilities.Count;
   }
 
   public void Start() {
