@@ -76,7 +76,7 @@ public class AbilityFireball : Ability {
         OwningCharacter.AddActiveAbility(this);
         break;
       case PhaseName.Action:
-        _target = _selected_character.AcquireTarget();
+        _target = _selected_character.AcquireTarget(OwningCharacter);
         break;
       case PhaseName.Effects:
         if (_target != null) {
