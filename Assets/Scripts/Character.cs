@@ -74,7 +74,7 @@ public class Character : MonoBehaviour {
     }
   }
 
-  public Character AcquireTarget(Character targeter) {
+  public Character AcquireAsTargetBy(Character targeter) {
     if (Targetable) {
       for (int i = 0; i < _active_abilities.Count; i++) {
         Character ability_target = _active_abilities[_active_abilities.Count - 1 - i].AcquireTarget(targeter);
