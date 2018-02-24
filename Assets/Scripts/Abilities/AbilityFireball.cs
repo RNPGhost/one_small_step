@@ -15,7 +15,7 @@ public class AbilityFireball : Ability {
   private Character _selected_character;
   private Character _target;
 
-  public override string Name() {
+  public override string GetName() {
     return "Fireball";
   }
 

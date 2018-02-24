@@ -16,7 +16,7 @@ public abstract class Ability : MonoBehaviour {
   private float _next_phase_change;
   private bool _phase_transition_allowed = false;
 
-  public abstract string Name();
+  public abstract string GetName();
 
   // returns whether this action was successful
   // if more input is required, state is set to this, otherwise state is set to null

@@ -10,7 +10,7 @@ public class AbilityButton : MonoBehaviour {
   private Text _text;
 
   private void Start() {
-    _text.text = _ability.Name();
+    _text.text = _ability.GetName();
   }
 
   public Ability GetAbility() {

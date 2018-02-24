@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
     AbilityButton selected_button;
     if (_ui_controller.TrySelectAbilityButton(mouse_position, out selected_button)) {
       SelectAbility(selected_button.GetAbility());
-      Debug.Log("Ability '" + _ability.Name() + "' selected");
+      Debug.Log("Ability '" + _ability.GetName() + "' selected");
       return true;
     }
 
