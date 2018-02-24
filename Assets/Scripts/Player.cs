@@ -8,9 +8,7 @@ public class Player : MonoBehaviour {
   [SerializeField]
   private UIController _ui_controller;
 
-  private Ability _ability = null;
-  
-  private readonly object _sync_lock = new object();
+  private Ability _selected_ability = null;
 
   public string Id {
     get {
@@ -18,42 +16,20 @@ public class Player : MonoBehaviour {
     }
   }
 
-  public void MouseClicked(Vector3 mouse_position) {
-    lock (_sync_lock) {
-      if (!TrySelectButton(mouse_position)) {
-        TrySelectCharacter(mouse_position);
-      }
+  public void SelectAbility(Ability ability) {
+    if (ability.Select(out _selected_ability))
+    {
+      Debug.Log("Ability '" + _selected_ability.GetName() + "' selected");
     }
   }
 
-  private bool TrySelectButton(Vector3 mouse_position) {
-    AbilityButton selected_button;
-    if (_ui_controller.TrySelectAbilityButton(mouse_position, out selected_button)) {
-      SelectAbility(selected_button.GetAbility());
-      Debug.Log("Ability '" + _ability.GetName() + "' selected");
-      return true;
-    }
-
-    return false;
-  }
-
-  private void SelectAbility(Ability ability) {
-    ability.Select(out _ability);
-  }
-
-  private bool TrySelectCharacter(Vector3 mouse_position) {
+  public bool TrySelectCharacter(Vector3 mouse_position) {
     Character selected_character;
-    if (_world.TrySelectCharacter(mouse_position, out selected_character)) {
-      SelectTarget(selected_character);
+    if (_selected_ability != null && _world.TrySelectCharacter(mouse_position, out selected_character)) {
+      _selected_ability.SelectTarget(selected_character, out _selected_ability);
       return true;
     }
 
     return false;
-  }
-
-  private void SelectTarget(Character character) {
-    if (_ability != null) {
-      _ability.SelectTarget(character, out _ability);
-    }
   }
 }
