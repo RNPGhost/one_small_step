@@ -27,13 +27,6 @@ public abstract class Ability : MonoBehaviour {
     return false;
   }
 
-  // returns the character that should be targetted 
-  // when the owner of this ability is targetted 
-  // while this ability is active
-  public Character AcquireTarget(Character targeter) {
-    return null;
-  }
-
   // returns whether this action was successful
   public virtual bool Interrupt() {
     if (Interruptable()) {

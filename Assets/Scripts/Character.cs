@@ -22,7 +22,7 @@ public class Character : MonoBehaviour {
   private StatusStack<bool> _targetable = new StatusStack<bool>(true);
   private StatusStack<bool> _damage_immune = new StatusStack<bool>(false);
   private StatusStack<Character> _targetable_character;
-  private List<Ability> _active_abilities = new List<Ability>();
+  private Ability _active_ability;
 
   public bool Targetable {
     get {
@@ -56,12 +56,6 @@ public class Character : MonoBehaviour {
 
   public Character AcquireAsTargetBy(Character targeter) {
     if (Targetable) {
-      for (int i = 0; i < _active_abilities.Count; i++) {
-        Character ability_target = _active_abilities[_active_abilities.Count - 1 - i].AcquireTarget(targeter);
-        if (ability_target != null) {
-          return ability_target;
-        }
-      }
       return _targetable_character.GetValue();
     }
 
@@ -69,21 +63,24 @@ public class Character : MonoBehaviour {
   }
 
   public void Interrupt() {
-    foreach (Ability ability in _active_abilities) {
-      ability.Interrupt();
+    _active_ability.Interrupt();
+  }
+
+  public void SetActiveAbility(Ability ability) {
+    _active_ability = ability;
+  }
+
+  public bool UnsetActiveAbility(Ability ability) {
+    if (_active_ability == ability)
+    {
+      _active_ability = null;
+      return true;
     }
+    return false;
   }
 
-  public void AddActiveAbility(Ability ability) {
-    _active_abilities.Add(ability);
-  }
-
-  public bool RemoveActiveAbility(Ability ability) {
-    return _active_abilities.Remove(ability);
-  }
-
-  public int AbilitiesInProgressCount() {
-    return _active_abilities.Count;
+  public bool AbilityInProgress() {
+    return _active_ability != null;
   }
 
   public void Start() {
