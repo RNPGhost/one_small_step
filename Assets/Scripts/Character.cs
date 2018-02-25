@@ -21,10 +21,9 @@ public class Character : MonoBehaviour {
 
   private bool _targetable = true;
   private int _set_untargetable_count = 0;
-  private Character _targetable_character;
+  private StatusStack<Character> _targetable_character;
   private bool _damage_immune = false;
   private int _set_damage_immune_count = 0;
-  private List<Character> _targetable_characters = new List<Character>();
   private List<Ability> _active_abilities = new List<Ability>();
 
   public bool Targetable {
@@ -58,20 +57,11 @@ public class Character : MonoBehaviour {
   }
 
   public void SetTargetableCharacter(Character character) {
-    _targetable_characters.Add(character);
-    _targetable_character = character;
+    _targetable_character.SetValue(character);
   }
 
   public void UnsetTargetableCharacter(Character character) {
-    int index = _targetable_characters.LastIndexOf(character);
-    if (index >= 0) {
-      _targetable_characters.RemoveAt(index);
-      if (_targetable_characters.Count > 0) {
-        _targetable_character = _targetable_characters[_targetable_characters.Count - 1];
-      } else {
-        _targetable_character = this;
-      }
-    }
+    _targetable_character.UnsetValue(character);
   }
 
   public Character AcquireAsTargetBy(Character targeter) {
@@ -82,7 +72,7 @@ public class Character : MonoBehaviour {
           return ability_target;
         }
       }
-      return _targetable_character;
+      return _targetable_character.GetValue();
     }
 
     return null;
@@ -107,7 +97,7 @@ public class Character : MonoBehaviour {
   }
 
   public void Start() {
-    _targetable_character = this;
+    _targetable_character = new StatusStack<Character>(this);
   }
 
   public void TakeDamage(float damage) {
