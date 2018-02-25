@@ -19,8 +19,7 @@ public class Character : MonoBehaviour {
   [SerializeField]
   private float _health;
 
-  private bool _targetable = true;
-  private int _set_untargetable_count = 0;
+  private StatusStack<bool> _targetable = new StatusStack<bool>(true);
   private StatusStack<Character> _targetable_character;
   private bool _damage_immune = false;
   private int _set_damage_immune_count = 0;
@@ -28,20 +27,16 @@ public class Character : MonoBehaviour {
 
   public bool Targetable {
     get {
-      return _targetable;
+      return _targetable.GetValue();
     }
   }
 
   public void SetUntargetable() {
-    _set_untargetable_count++;
-    _targetable = false;
+    _targetable.SetValue(false);
   }
 
   public void UnsetUntargetable() {
-    _set_untargetable_count--;
-    if (_set_untargetable_count == 0) {
-      _targetable = true;
-    }
+    _targetable.UnsetValue(false);
   }
 
   public void SetDamageImmune() {
