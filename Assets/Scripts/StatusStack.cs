@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StatusStack<T> {
-  T _default_status;
-  T _current_status; // Most recently assigned status
-  List<T> _status_stack = new List<T>();
+  private T _default_status;
+  private T _current_status; // Most recently assigned status
+  private List<T> _status_stack = new List<T>();
 
   public StatusStack(T default_status)
   {
