@@ -13,17 +13,17 @@ public class StatusStack<T> {
     _current_status = _default_status;
   }
 
-	public void SetStatus (T new_status) {
+  public T GetValue() {
+    return _current_status;
+  }
+
+  public void SetValue (T new_status) {
     _status_stack.Add(new_status);
     _current_status = new_status;
 	}
 	
-  public T GetStatus()
-  {
-    return _current_status;
-  }
 
-  public void UnsetStatus(T old_status)
+  public void UnsetValue(T old_status)
   {
     _status_stack.Remove(old_status);
     int stack_size = _status_stack.Count;
