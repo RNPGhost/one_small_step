@@ -20,9 +20,8 @@ public class Character : MonoBehaviour {
   private float _health;
 
   private StatusStack<bool> _targetable = new StatusStack<bool>(true);
+  private StatusStack<bool> _damage_immune = new StatusStack<bool>(false);
   private StatusStack<Character> _targetable_character;
-  private bool _damage_immune = false;
-  private int _set_damage_immune_count = 0;
   private List<Ability> _active_abilities = new List<Ability>();
 
   public bool Targetable {
@@ -40,15 +39,11 @@ public class Character : MonoBehaviour {
   }
 
   public void SetDamageImmune() {
-    _set_damage_immune_count++;
-    _damage_immune = true;
+    _damage_immune.SetValue(true);
   }
 
   public void UnsetDamageImmune() {
-    _set_damage_immune_count--;
-    if (_set_damage_immune_count == 0) {
-      _damage_immune = false;
-    }
+    _damage_immune.UnsetValue(true);
   }
 
   public void SetTargetableCharacter(Character character) {
@@ -96,7 +91,7 @@ public class Character : MonoBehaviour {
   }
 
   public void TakeDamage(float damage) {
-    if (!_damage_immune) {
+    if (!_damage_immune.GetValue()) {
       Debug.Log(_name + " took " + damage + " damage");
       _health = Mathf.Max(_health - damage, 0);
     }
