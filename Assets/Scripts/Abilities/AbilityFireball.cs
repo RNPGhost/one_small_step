@@ -72,9 +72,10 @@ public class AbilityFireball : Ability {
         break;
       case PhaseName.Preparation:
         OwningCharacter.SetActiveAbility(this);
+        _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
+        StartAnimation();
         break;
       case PhaseName.Action:
-        _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
         break;
       case PhaseName.Effects:
         if (_target != null) {
@@ -89,5 +90,9 @@ public class AbilityFireball : Ability {
       default:
         break;
     }
+  }
+
+  private void StartAnimation() {
+    Animator.Play("Fireball");
   }
 }

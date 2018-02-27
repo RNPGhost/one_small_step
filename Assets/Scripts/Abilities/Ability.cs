@@ -8,6 +8,15 @@ public abstract class Ability : MonoBehaviour {
       return _owning_character;
     }
   }
+  [SerializeField]
+  private Animator _animator;
+  protected Animator Animator
+  {
+    get
+    {
+      return _animator;
+    }
+  }
 
   private PhaseLoop _phases;
   private PhaseName _current_phase_name;
