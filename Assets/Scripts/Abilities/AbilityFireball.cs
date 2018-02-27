@@ -3,14 +3,6 @@
 public class AbilityFireball : Ability {
   [SerializeField]
   private float _damage;
-  [SerializeField]
-  private float _preparation_duration;
-  [SerializeField]
-  private float _action_duration;
-  [SerializeField]
-  private float _recovery_duration;
-  [SerializeField]
-  private float _cooldown_duration;
 
   private Character _selected_character;
   private Character _target;
@@ -22,11 +14,8 @@ public class AbilityFireball : Ability {
   private void Start() {
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, _preparation_duration),
-      new Phase(PhaseName.Action, _action_duration),
-      new Phase(PhaseName.Effects, 0),
-      new Phase(PhaseName.Recovery, _recovery_duration),
-      new Phase(PhaseName.Cooldown, _cooldown_duration)
+      new Phase(PhaseName.Preparation, 3.5f),
+      new Phase(PhaseName.Recovery, 1.5f),
       });
   }
   
@@ -68,6 +57,7 @@ public class AbilityFireball : Ability {
     Debug.Log("Entered phase " + phase.Name);
     switch (phase.Name) {
       case PhaseName.Ready:
+        OwningCharacter.UnsetActiveAbility(this);
         PausePhaseTransition();
         break;
       case PhaseName.Preparation:
@@ -75,17 +65,8 @@ public class AbilityFireball : Ability {
         _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
         StartAnimation();
         break;
-      case PhaseName.Action:
-        break;
-      case PhaseName.Effects:
-        if (_target != null) {
-          _target.TakeDamage(_damage);
-        }
-        break;
       case PhaseName.Recovery:
-        break;
-      case PhaseName.Cooldown:
-        OwningCharacter.UnsetActiveAbility(this);
+        CreateFireball();
         break;
       default:
         break;
@@ -94,5 +75,12 @@ public class AbilityFireball : Ability {
 
   private void StartAnimation() {
     Animator.Play("Fireball");
+  }
+
+  private void CreateFireball() {
+    if (_target != null)
+    {
+      _target.TakeDamage(_damage);
+    }
   }
 }

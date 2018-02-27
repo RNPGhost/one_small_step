@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public struct Phase {
+﻿public struct Phase {
   private PhaseName _name;
   public PhaseName Name {
     get {
@@ -27,8 +23,5 @@ public struct Phase {
 public enum PhaseName {
   Ready,
   Preparation,
-  Action,
-  Effects,
   Recovery,
-  Cooldown
 }

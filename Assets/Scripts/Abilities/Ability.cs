@@ -40,7 +40,7 @@ public abstract class Ability : MonoBehaviour {
   public virtual bool Interrupt() {
     if (Interruptable()) {
       PausePhaseTransition();
-      PutOnCooldown();
+      ResetPhase();
       return true;
     }
 
@@ -48,12 +48,12 @@ public abstract class Ability : MonoBehaviour {
   }
 
   protected virtual bool Interruptable() {
-    return (!(GetCurrentPhaseName() == PhaseName.Ready || GetCurrentPhaseName() == PhaseName.Cooldown));
+    return (!(GetCurrentPhaseName() == PhaseName.Ready));
   }
 
-  protected virtual void PutOnCooldown() {
+  protected virtual void ResetPhase() {
     _next_phase_change = Time.time;
-    GoToPhase(PhaseName.Cooldown);
+    GoToPhase(PhaseName.Ready);
   }
 
   protected void UnpausePhaseTransition() {
