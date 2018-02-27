@@ -7,14 +7,10 @@ public class InputController : MonoBehaviour {
   private World _world;
   [SerializeField]
   private UIController _ui_controller;
-
-  private bool _mouse_was_down = false;
   
   void Update () {
     if (Input.GetMouseButtonDown(0))
     {
-      if (!_mouse_was_down) 
-      {
         Vector3 mouse_position = Input.mousePosition;
         AbilityButton selected_button;
         Character selected_character;
@@ -26,13 +22,6 @@ public class InputController : MonoBehaviour {
         {
           _player.SelectCharacter(selected_character);
         }
-
-        _mouse_was_down = true;
-      }
-    }
-    else if (_mouse_was_down)
-    {
-      _mouse_was_down = false;
     }
 	}
 }
