@@ -3,6 +3,10 @@
 public class AbilityFireball : Ability {
   [SerializeField]
   private float _damage;
+  [SerializeField]
+  private Transform _fireball_spawnpoint;
+  [SerializeField]
+  private GameObject _fireball_prefab;
 
   private Character _selected_character;
   private Character _target;
@@ -14,8 +18,8 @@ public class AbilityFireball : Ability {
   private void Start() {
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, 3.5f),
-      new Phase(PhaseName.Recovery, 1.5f),
+      new Phase(PhaseName.Preparation, 3.4f),
+      new Phase(PhaseName.Recovery, 2.1f),
       });
   }
   
@@ -78,9 +82,9 @@ public class AbilityFireball : Ability {
   }
 
   private void CreateFireball() {
-    if (_target != null)
-    {
-      _target.TakeDamage(_damage);
-    }
+    GameObject fireball = Instantiate(_fireball_prefab, _fireball_spawnpoint);
+    TargetingMover script = fireball.GetComponent<TargetingMover>();
+    script.SetTarget(_target.gameObject);
+    script.SetSpeed(7);
   }
 }
