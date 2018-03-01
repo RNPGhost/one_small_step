@@ -83,8 +83,10 @@ public class AbilityFireball : Ability {
 
   private void CreateFireball() {
     GameObject fireball = Instantiate(_fireball_prefab, _fireball_spawnpoint);
-    TargetingMover script = fireball.GetComponent<TargetingMover>();
-    script.SetTarget(_target.gameObject);
-    script.SetSpeed(7);
+    TargetingMover fireballMover = fireball.GetComponent<TargetingMover>();
+    fireballMover.SetTarget(_target.gameObject);
+    fireballMover.SetSpeed(10);
+    ExplodeOnContact fireballExploder = fireball.GetComponent<ExplodeOnContact>();
+    fireballExploder.SetCaster(OwningCharacter);
   }
 }
