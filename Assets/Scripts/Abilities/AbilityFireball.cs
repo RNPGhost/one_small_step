@@ -18,8 +18,8 @@ public class AbilityFireball : Ability {
   private void Start() {
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, 3.4f),
-      new Phase(PhaseName.Recovery, 2.1f),
+      new Phase(PhaseName.Preparation, 3.3f),
+      new Phase(PhaseName.Recovery, 2.2f),
       });
   }
   
