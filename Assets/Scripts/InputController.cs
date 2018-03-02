@@ -27,7 +27,11 @@ public class InputController : MonoBehaviour {
 
   private void SelectAbility(Ability ability) {
     ability.Reset();
-    if (!ability.Activate())
+    if (ability.Activate())
+    {
+      _selected_ability = null;
+    }
+    else
     {
       _selected_ability = ability;
     }
