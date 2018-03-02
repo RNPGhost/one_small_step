@@ -16,7 +16,7 @@ public class AbilityFireball : Ability {
   }
 
   public override bool Activate() {
-    if (IsReady() && _selected_character != null) {
+    if (IsReady() && OwningCharacter.IsReadyToActivateAbility() && _selected_character != null) {
       UnpausePhaseTransition();
       return true;
     }

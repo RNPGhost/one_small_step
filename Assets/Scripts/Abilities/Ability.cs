@@ -29,7 +29,7 @@ public abstract class Ability : MonoBehaviour {
   // returns whether this ability was activated
   public virtual bool Activate()
   {
-    if (IsReady() && !OwningCharacter.AbilityInProgress()) {
+    if (IsReady() && OwningCharacter.IsReadyToActivateAbility()) {
       UnpausePhaseTransition();
       return true;
     }
