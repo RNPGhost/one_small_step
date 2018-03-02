@@ -26,18 +26,27 @@ public class InputController : MonoBehaviour {
 	}
 
   private void SelectAbility(Ability ability) {
-    if (ability.Select(out _selected_ability))
+    ability.Reset()
+    if (!ability.Activate())
     {
+      _selected_ability == ability;
       Debug.Log("Ability '" + _selected_ability.GetName() + "' selected");
+    }
+    else
+    {
+      Debug.Log("Ability '" + _selected_ability.GetName() + "' activated")
     }
   }
 
-  private bool SelectCharacter(Character character)
+  private void SelectCharacter(Character character)
   {
     if (_selected_ability != null)
     {
-      return _selected_ability.SelectTarget(character, out _selected_ability);
+      _selected_ability.SelectTarget(character, out _selected_ability);
+      if (_selected_ability.Activate())
+      {
+        Debug.Log("Ability '" + _selected_ability.GetName() + "' activated")
+      }
     }
-    return false;
   }
 }

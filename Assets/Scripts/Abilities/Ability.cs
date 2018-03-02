@@ -25,18 +25,24 @@ public abstract class Ability : MonoBehaviour {
 
   public abstract string GetName();
 
-  // returns whether this action was successful
-  // if more input is required, state is set to this, otherwise state is set to null
-  public abstract bool Select(out Ability state);
+  public virtual bool Activate()
+  {
+    if (IsReady() && !OwningCharacter.AbilityInProgress()) {
+      UnpausePhaseTransition();
+      return true;
+    }
 
-  // returns whether this action was successful
-  // if more input is required, state is set to this, otherwise state is set to null
-  public virtual bool SelectTarget(Character character, out Ability state) {
-    state = null;
     return false;
   }
 
-  // returns whether this action was successful
+  // returns whether the target selected was valid
+  public virtual bool SelectTarget(Character character) {
+    return false;
+  }
+
+  public virtual void Reset() {};
+
+  // returns whether this ability was interrupted
   public virtual bool Interrupt() {
     if (Interruptable()) {
       PausePhaseTransition();
@@ -45,6 +51,17 @@ public abstract class Ability : MonoBehaviour {
     }
 
     return false;
+  }
+
+  protected virtual bool IsReady()
+  {
+    return !OwningCharacter.AbilityInProgress() && _current_phase_name == PhaseName.Ready;
+  }
+
+  protected abstract void AbilitySpecificPhaseUpdate(Phase phase);
+
+  protected void SetPhases(Phase[] phases) {
+    _phases = new PhaseLoop(phases);
   }
 
   protected virtual bool Interruptable() {
@@ -60,19 +77,20 @@ public abstract class Ability : MonoBehaviour {
     _next_phase_change = Time.time;
     _phase_transition_allowed = true;
   }
-  
+
   protected void PausePhaseTransition() {
     _phase_transition_allowed = false;
+  }
+
+
+  protected PhaseName GetCurrentPhaseName() {
+    return _current_phase_name;
   }
 
   private void Update() {
     while (_phase_transition_allowed && Time.time >= _next_phase_change) {
       GoToNextPhase();
     }
-  }
-
-  protected PhaseName GetCurrentPhaseName() {
-    return _current_phase_name;
   }
 
   private void GoToNextPhase() {
@@ -93,11 +111,5 @@ public abstract class Ability : MonoBehaviour {
   private void UpdatePhaseVariables(Phase phase) {
     _current_phase_name = phase.Name;
     _next_phase_change += phase.Duration;
-  }
-
-  protected abstract void AbilitySpecificPhaseUpdate(Phase phase);
-
-  protected void SetPhases(Phase[] phases) {
-    _phases = new PhaseLoop(phases);
   }
 }

@@ -15,46 +15,31 @@ public class AbilityFireball : Ability {
     return "Fireball";
   }
 
-  private void Start() {
-    SetPhases(new Phase[] {
-      new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, 3.3f),
-      new Phase(PhaseName.Recovery, 2.2f),
-      });
-  }
-  
-  public override bool Select(out Ability state) {
-    if (!OwningCharacter.AbilityInProgress()
-        && GetCurrentPhaseName() == PhaseName.Ready) {
-      state = this;
-      return true;
-    }
-
-    state = null;
-    return false;
-  }
-
-  public override bool SelectTarget(Character character, out Ability state) {
-    if (!OwningCharacter.AbilityInProgress()
-        && GetCurrentPhaseName() == PhaseName.Ready
-        && IsValidTarget(character)) {
-      _selected_character = character;
+  public override bool Activate() {
+    if (IsReady() && _selected_character != null) {
       UnpausePhaseTransition();
-      state = null;
       return true;
     }
 
-    state = this;
     return false;
   }
 
-  private bool IsValidTarget(Character character) {
-    return (character.OwningPlayer.Id != OwningCharacter.OwningPlayer.Id
-            && character.Targetable);
+  public override bool SelectTarget(Character character) {
+    if (IsReady() && IsValidTarget(character)) {
+      _selected_character = character;
+      return true;
+    }
+
+    return false;
   }
 
-  protected override bool Interruptable() {
-    return GetCurrentPhaseName() == PhaseName.Preparation;
+  public override bool Reset() {
+    if (IsReady()) {
+      _selected_character == null;
+      return true;
+    }
+
+    return false;
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
@@ -62,6 +47,7 @@ public class AbilityFireball : Ability {
     switch (phase.Name) {
       case PhaseName.Ready:
         OwningCharacter.UnsetActiveAbility(this);
+        Reset();
         PausePhaseTransition();
         break;
       case PhaseName.Preparation:
@@ -75,6 +61,19 @@ public class AbilityFireball : Ability {
       default:
         break;
     }
+  }
+
+  private void Start() {
+    SetPhases(new Phase[] {
+      new Phase(PhaseName.Ready),
+      new Phase(PhaseName.Preparation, 3.3f),
+      new Phase(PhaseName.Recovery, 2.2f),
+      });
+  }
+
+  private bool IsValidTarget(Character character) {
+    return (character.OwningPlayer.Id != OwningCharacter.OwningPlayer.Id
+            && character.Targetable);
   }
 
   private void StartAnimation() {
