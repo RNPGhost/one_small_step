@@ -2,13 +2,13 @@
 
 public class InputController : MonoBehaviour {
   [SerializeField]
-  private Player _player;
-  [SerializeField]
   private World _world;
   [SerializeField]
   private UIController _ui_controller;
-  
-  void Update () {
+
+  private Ability _selected_ability = null;
+
+  private void Update () {
     if (Input.GetMouseButtonDown(0))
     {
         Vector3 mouse_position = Input.mousePosition;
@@ -16,12 +16,28 @@ public class InputController : MonoBehaviour {
         Character selected_character;
         if (_ui_controller.TrySelectAbilityButton(mouse_position, out selected_button))
         {
-          _player.SelectAbility(selected_button.GetAbility());
+          SelectAbility(selected_button.GetAbility());
         }
         else if (_world.TrySelectCharacter(mouse_position, out selected_character))
         {
-          _player.SelectCharacter(selected_character);
+          SelectCharacter(selected_character);
         }
     }
 	}
+
+  private void SelectAbility(Ability ability) {
+    if (ability.Select(out _selected_ability))
+    {
+      Debug.Log("Ability '" + _selected_ability.GetName() + "' selected");
+    }
+  }
+
+  private bool SelectCharacter(Character character)
+  {
+    if (_selected_ability != null)
+    {
+      return _selected_ability.SelectTarget(character, out _selected_ability);
+    }
+    return false;
+  }
 }
