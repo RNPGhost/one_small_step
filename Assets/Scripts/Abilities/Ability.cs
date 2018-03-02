@@ -39,6 +39,7 @@ public abstract class Ability : MonoBehaviour {
   // provides a target for the ability
   public virtual void SetTarget(Character character) {}
 
+  // resets the ability if it is not currently activated
   public virtual void Reset() {}
 
   // returns whether this ability was interrupted
