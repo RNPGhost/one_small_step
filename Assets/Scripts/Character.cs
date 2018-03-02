@@ -83,6 +83,10 @@ public class Character : MonoBehaviour {
     return _active_ability != null;
   }
 
+  public bool IsReadyToActivateAbility() {
+    return !AbilityInProgress();
+  }
+
   public void Start() {
     _targetable_character = new StatusStack<Character>(this);
   }
