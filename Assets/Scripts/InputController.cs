@@ -26,15 +26,15 @@ public class InputController : MonoBehaviour {
 	}
 
   private void SelectAbility(Ability ability) {
-    ability.Reset()
+    ability.Reset();
     if (!ability.Activate())
     {
-      _selected_ability == ability;
+      _selected_ability = ability;
       Debug.Log("Ability '" + _selected_ability.GetName() + "' selected");
     }
     else
     {
-      Debug.Log("Ability '" + _selected_ability.GetName() + "' activated")
+      Debug.Log("Ability '" + _selected_ability.GetName() + "' activated");
     }
   }
 
@@ -42,10 +42,11 @@ public class InputController : MonoBehaviour {
   {
     if (_selected_ability != null)
     {
-      _selected_ability.SelectTarget(character, out _selected_ability);
+      _selected_ability.SelectTarget(character);
       if (_selected_ability.Activate())
       {
-        Debug.Log("Ability '" + _selected_ability.GetName() + "' activated")
+        Debug.Log("Ability '" + _selected_ability.GetName() + "' activated");
+        _selected_ability = null;
       }
     }
   }

@@ -40,7 +40,7 @@ public abstract class Ability : MonoBehaviour {
     return false;
   }
 
-  public virtual void Reset() {};
+  public virtual void Reset() {}
 
   // returns whether this ability was interrupted
   public virtual bool Interrupt() {

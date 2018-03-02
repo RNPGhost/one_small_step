@@ -33,13 +33,10 @@ public class AbilityFireball : Ability {
     return false;
   }
 
-  public override bool Reset() {
+  public override void Reset() {
     if (IsReady()) {
-      _selected_character == null;
-      return true;
+      _selected_character = null;
     }
-
-    return false;
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
