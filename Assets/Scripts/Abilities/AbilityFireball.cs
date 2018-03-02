@@ -24,7 +24,7 @@ public class AbilityFireball : Ability {
     return false;
   }
 
-  public override void SelectTarget(Character character) {
+  public override void SetTarget(Character character) {
     if (IsReady() && IsValidTarget(character)) {
       _selected_character = character;
     }

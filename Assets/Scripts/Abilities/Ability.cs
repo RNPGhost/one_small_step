@@ -36,7 +36,8 @@ public abstract class Ability : MonoBehaviour {
     return false;
   }
 
-  public virtual void SelectTarget(Character character) {}
+  // provides a target for the ability
+  public virtual void SetTarget(Character character) {}
 
   public virtual void Reset() {}
 

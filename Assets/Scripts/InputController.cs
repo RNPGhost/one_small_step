@@ -30,11 +30,6 @@ public class InputController : MonoBehaviour {
     if (!ability.Activate())
     {
       _selected_ability = ability;
-      Debug.Log("Ability '" + _selected_ability.GetName() + "' selected");
-    }
-    else
-    {
-      Debug.Log("Ability '" + _selected_ability.GetName() + "' activated");
     }
   }
 
@@ -42,10 +37,9 @@ public class InputController : MonoBehaviour {
   {
     if (_selected_ability != null)
     {
-      _selected_ability.SelectTarget(character);
+      _selected_ability.SetTarget(character);
       if (_selected_ability.Activate())
       {
-        Debug.Log("Ability '" + _selected_ability.GetName() + "' activated");
         _selected_ability = null;
       }
     }
