@@ -47,7 +47,7 @@ public abstract class Ability : MonoBehaviour {
   public virtual bool Interrupt() {
     if (Interruptable()) {
       PausePhaseTransition();
-      ResetPhase();
+      SetToNextReadyPhase();
       return true;
     }
 
@@ -74,9 +74,9 @@ public abstract class Ability : MonoBehaviour {
   }
 
   // resets the ability back to the ready phase
-  protected virtual void ResetPhase() {
+  protected virtual void SetToNextReadyPhase() {
     _next_phase_change = Time.time;
-    GoToPhase(PhaseName.Ready);
+    GoToNextPhase(PhaseName.Ready);
   }
 
   // start the ability progressing through its phases
@@ -106,8 +106,8 @@ public abstract class Ability : MonoBehaviour {
     PhaseUpdate(_phases.Current());
   }
 
-  private void GoToPhase(PhaseName name) {
-    _phases.GoTo(name);
+  private void GoToNextPhase(PhaseName name) {
+    _phases.GoToNext(name);
     PhaseUpdate(_phases.Current());
   }
 

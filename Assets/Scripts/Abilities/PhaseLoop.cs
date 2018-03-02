@@ -21,12 +21,12 @@ public class PhaseLoop {
     }
   }
 
-  public void GoTo(PhaseName name) {
+  public void GoToNext(PhaseName name) {
     for (int i = 0; i < _phases.Length; i++) {
-      if (_phases[i].Name == name) {
+      if (_phases[(_index + i) % _phases.Length].Name == name) {
         _index = i;
         break;
       }
-    }    
+    }
   }
 }
