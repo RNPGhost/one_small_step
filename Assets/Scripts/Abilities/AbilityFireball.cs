@@ -37,15 +37,8 @@ public class AbilityFireball : Ability {
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
-    Debug.Log("Entered phase " + phase.Name);
     switch (phase.Name) {
-      case PhaseName.Ready:
-        OwningCharacter.UnsetActiveAbility(this);
-        Reset();
-        PausePhaseTransition();
-        break;
       case PhaseName.Preparation:
-        OwningCharacter.SetActiveAbility(this);
         StartAnimation();
         _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
         break;

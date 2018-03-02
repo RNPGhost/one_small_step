@@ -105,7 +105,25 @@ public abstract class Ability : MonoBehaviour {
 
   private void PhaseUpdate(Phase phase) {
     UpdatePhaseVariables(phase);
+    GeneralAbilityPhaseUpdate(phase);
     AbilitySpecificPhaseUpdate(phase);
+  }
+
+  private void GeneralAbilityPhaseUpdate(Phase phase)
+  {
+    switch (phase.Name)
+    {
+      case PhaseName.Ready:
+        OwningCharacter.UnsetActiveAbility(this);
+        Reset();
+        PausePhaseTransition();
+        break;
+      case PhaseName.Preparation:
+        OwningCharacter.SetActiveAbility(this);
+        break;
+      default:
+        break;
+    }
   }
 
   private void UpdatePhaseVariables(Phase phase) {
