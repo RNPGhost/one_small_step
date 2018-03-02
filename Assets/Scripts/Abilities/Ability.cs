@@ -23,6 +23,7 @@ public abstract class Ability : MonoBehaviour {
   private float _next_phase_change;
   private bool _phase_transition_allowed = false;
 
+  // returns the ability name
   public abstract string GetName();
 
   // returns whether this ability was activated
@@ -53,36 +54,43 @@ public abstract class Ability : MonoBehaviour {
     return false;
   }
 
+  // returns whether an ability is ready to be set up to be activated
   protected virtual bool IsReady()
   {
     return !OwningCharacter.AbilityInProgress() && _current_phase_name == PhaseName.Ready;
   }
 
+  // carries out any actions that are specific to the ability and to the phase the ability is in
   protected abstract void AbilitySpecificPhaseUpdate(Phase phase);
 
+  // sets up the phases of the ability, and how long it should spend in each phase
   protected void SetPhases(Phase[] phases) {
     _phases = new PhaseLoop(phases);
   }
 
+  // returns whether it is currently possible to interrupt the ability
   protected virtual bool Interruptable() {
     return (!(GetCurrentPhaseName() == PhaseName.Ready));
   }
 
+  // resets the ability back to the ready phase
   protected virtual void ResetPhase() {
     _next_phase_change = Time.time;
     GoToPhase(PhaseName.Ready);
   }
 
+  // start the ability progressing through its phases
   protected void UnpausePhaseTransition() {
     _next_phase_change = Time.time;
     _phase_transition_allowed = true;
   }
 
+  // stops the ability progressing through its phases
   protected void PausePhaseTransition() {
     _phase_transition_allowed = false;
   }
 
-
+  // gets the name of the phase the ability is currently in
   protected PhaseName GetCurrentPhaseName() {
     return _current_phase_name;
   }
