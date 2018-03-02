@@ -3,14 +3,13 @@
 public class Player : MonoBehaviour {
   [SerializeField]
   private string _id;
-
-  private Ability _selected_ability = null;
-
   public string Id {
     get {
       return _id;
     }
   }
+
+  private Ability _selected_ability = null;
 
   public void SelectAbility(Ability ability) {
     if (ability.Select(out _selected_ability))
