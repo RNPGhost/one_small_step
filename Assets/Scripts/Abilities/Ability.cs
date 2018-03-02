@@ -25,6 +25,7 @@ public abstract class Ability : MonoBehaviour {
 
   public abstract string GetName();
 
+  // returns whether this ability was activated
   public virtual bool Activate()
   {
     if (IsReady() && !OwningCharacter.AbilityInProgress()) {
@@ -35,10 +36,7 @@ public abstract class Ability : MonoBehaviour {
     return false;
   }
 
-  // returns whether the target selected was valid
-  public virtual bool SelectTarget(Character character) {
-    return false;
-  }
+  public virtual void SelectTarget(Character character) {}
 
   public virtual void Reset() {}
 

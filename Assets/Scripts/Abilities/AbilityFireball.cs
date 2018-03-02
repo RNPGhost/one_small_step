@@ -24,13 +24,10 @@ public class AbilityFireball : Ability {
     return false;
   }
 
-  public override bool SelectTarget(Character character) {
+  public override void SelectTarget(Character character) {
     if (IsReady() && IsValidTarget(character)) {
       _selected_character = character;
-      return true;
     }
-
-    return false;
   }
 
   public override void Reset() {
@@ -49,8 +46,8 @@ public class AbilityFireball : Ability {
         break;
       case PhaseName.Preparation:
         OwningCharacter.SetActiveAbility(this);
-        _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
         StartAnimation();
+        _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
         break;
       case PhaseName.Recovery:
         CreateFireball();
