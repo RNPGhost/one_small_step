@@ -103,6 +103,11 @@ public abstract class Ability : MonoBehaviour {
     return _current_phase_name;
   }
 
+  protected float GetSpeedMultiplier()
+  {
+    return _speed_multiplier;
+  }
+
   private void Update() {
     while (_phase_transition_allowed && Time.time >= _next_phase_change) {
       GoToNextPhase();
