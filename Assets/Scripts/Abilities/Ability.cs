@@ -145,7 +145,7 @@ public abstract class Ability : MonoBehaviour {
 
   private void StartAnimation()
   {
-    Animator.SetFloat(GetName() + "AnimationSpeed", _speed_multiplier);
+    Animator.SetFloat(GetName() + "Speed", _speed_multiplier);
     Animator.Play(GetName());
   }
 
