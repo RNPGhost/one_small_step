@@ -54,7 +54,6 @@ public class AbilityFireball : Ability {
 
   private void Start() {
     _speed_multiplier = OwningCharacter.GetAbilitySpeedMultiplier();
-    Debug.Log(_speed_multiplier);
     Animator.SetFloat("FireballAnimationSpeed", _speed_multiplier);
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
