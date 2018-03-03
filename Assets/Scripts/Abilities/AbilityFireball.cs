@@ -34,7 +34,6 @@ public class AbilityFireball : Ability {
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
-    Debug.Log("Entered phase " + phase.Name);
     switch (phase.Name) {
       case PhaseName.Preparation:
         _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
