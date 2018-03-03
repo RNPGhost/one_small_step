@@ -18,6 +18,8 @@ public class Character : MonoBehaviour {
   }
   [SerializeField]
   private float _health;
+  [SerializeField]
+  private float _speed; // 0 <= speed <= 10
 
   private StatusStack<bool> _targetable = new StatusStack<bool>(true);
   private StatusStack<bool> _damage_immune = new StatusStack<bool>(false);
@@ -87,8 +89,9 @@ public class Character : MonoBehaviour {
     return !AbilityInProgress();
   }
 
-  public void Start() {
-    _targetable_character = new StatusStack<Character>(this);
+  public float GetAbilitySpeedMultiplier()
+  {
+    return 0.8f + _speed * 0.04f;
   }
 
   public void TakeDamage(float damage) {
@@ -96,5 +99,10 @@ public class Character : MonoBehaviour {
       Debug.Log(_name + " took " + damage + " damage");
       _health = Mathf.Max(_health - damage, 0);
     }
+  }
+  
+  private void Start()
+  {
+    _targetable_character = new StatusStack<Character>(this);
   }
 }

@@ -10,6 +10,7 @@ public class AbilityFireball : Ability {
 
   private Character _selected_character;
   private Character _target;
+  private float _speed_multiplier;
 
   public override string GetName() {
     return "Fireball";
@@ -37,6 +38,7 @@ public class AbilityFireball : Ability {
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
+    Debug.Log("Entered phase " + phase.Name);
     switch (phase.Name) {
       case PhaseName.Preparation:
         StartAnimation();
@@ -51,10 +53,13 @@ public class AbilityFireball : Ability {
   }
 
   private void Start() {
+    _speed_multiplier = OwningCharacter.GetAbilitySpeedMultiplier();
+    Debug.Log(_speed_multiplier);
+    Animator.SetFloat("FireballAnimationSpeed", _speed_multiplier);
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, 3.3f),
-      new Phase(PhaseName.Recovery, 2.2f),
+      new Phase(PhaseName.Preparation, 1.8f * (1/_speed_multiplier)),
+      new Phase(PhaseName.Recovery, 1.5f * (1/_speed_multiplier)),
       });
   }
 
