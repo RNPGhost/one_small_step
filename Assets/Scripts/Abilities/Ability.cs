@@ -55,7 +55,7 @@ public abstract class Ability : MonoBehaviour {
   }
 
   // returns whether an ability is ready to be set up to be activated
-  protected virtual bool IsReady()
+  public virtual bool IsReady()
   {
     return _current_phase_name == PhaseName.Ready;
   }
