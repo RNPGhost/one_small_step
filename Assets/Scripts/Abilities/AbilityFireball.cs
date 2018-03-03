@@ -15,33 +15,28 @@ public class AbilityFireball : Ability {
   public override string GetName() {
     return "Fireball";
   }
-
-  public override bool Activate() {
-    if (IsReady() && OwningCharacter.IsReadyToActivateAbility() && _selected_character != null) {
-      UnpausePhaseTransition();
-      return true;
-    }
-
-    return false;
-  }
-
+  
   public override void SetTarget(Character character) {
-    if (IsReady() && IsValidTarget(character)) {
+    if (!IsInProgress() && IsValidTarget(character)) {
       _selected_character = character;
     }
   }
 
   public override void Reset() {
-    if (IsReady()) {
+    if (!IsInProgress()) {
       _selected_character = null;
     }
+  }
+
+  protected override bool IsReadyToBeActivated()
+  {
+    return base.IsReadyToBeActivated() && _selected_character != null;
   }
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
     Debug.Log("Entered phase " + phase.Name);
     switch (phase.Name) {
       case PhaseName.Preparation:
-        StartAnimation();
         _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
         break;
       case PhaseName.Recovery:
@@ -54,21 +49,16 @@ public class AbilityFireball : Ability {
 
   private void Start() {
     _speed_multiplier = OwningCharacter.GetAbilitySpeedMultiplier();
-    Animator.SetFloat("FireballAnimationSpeed", _speed_multiplier);
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, 1.8f * (1/_speed_multiplier)),
-      new Phase(PhaseName.Recovery, 1.5f * (1/_speed_multiplier)),
+      new Phase(PhaseName.Preparation, 1.8f),
+      new Phase(PhaseName.Recovery, 1.5f),
       });
   }
 
   private bool IsValidTarget(Character character) {
     return (character.OwningPlayer.Id != OwningCharacter.OwningPlayer.Id
             && character.Targetable);
-  }
-
-  private void StartAnimation() {
-    Animator.Play("Fireball");
   }
 
   private void CreateFireball() {

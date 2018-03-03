@@ -22,14 +22,16 @@ public abstract class Ability : MonoBehaviour {
   private PhaseName _current_phase_name;
   private float _next_phase_change;
   private bool _phase_transition_allowed = false;
+  private float _speed_multiplier;
 
   // returns the ability name
   public abstract string GetName();
 
   // returns whether this ability was activated
-  public virtual bool Activate()
+  public bool Activate()
   {
-    if (IsReady() && OwningCharacter.IsReadyToActivateAbility()) {
+    if (IsReadyToBeActivated()) {
+      _speed_multiplier = OwningCharacter.GetAbilitySpeedMultiplier();
       UnpausePhaseTransition();
       return true;
     }
@@ -55,9 +57,15 @@ public abstract class Ability : MonoBehaviour {
   }
 
   // returns whether an ability is ready to be set up to be activated
-  public virtual bool IsReady()
+  public virtual bool IsInProgress()
   {
-    return _current_phase_name == PhaseName.Ready;
+    return !(_current_phase_name == PhaseName.Ready);
+  }
+
+  // 
+  protected virtual bool IsReadyToBeActivated()
+  {
+    return !IsInProgress() && OwningCharacter.IsReadyToActivateAbility();
   }
 
   // carries out any actions that are specific to the ability and to the phase the ability is in
@@ -128,14 +136,21 @@ public abstract class Ability : MonoBehaviour {
         break;
       case PhaseName.Preparation:
         OwningCharacter.SetActiveAbility(this);
+        StartAnimation();
         break;
       default:
         break;
     }
   }
 
+  private void StartAnimation()
+  {
+    Animator.SetFloat(GetName() + "AnimationSpeed", _speed_multiplier);
+    Animator.Play(GetName());
+  }
+
   private void UpdatePhaseVariables(Phase phase) {
     _current_phase_name = phase.Name;
-    _next_phase_change += phase.Duration;
+    _next_phase_change += (phase.Duration / _speed_multiplier);
   }
 }
