@@ -18,6 +18,40 @@ public class Character : MonoBehaviour {
   }
   [SerializeField]
   private float _health;
+  public float Health
+  {
+    get
+    {
+      return _health;
+    }
+  }
+  [SerializeField]
+  private float _max_health;
+  public float MaxHealth
+  {
+    get
+    {
+      return _max_health;
+    }
+  }
+  [SerializeField]
+  private float _energy;
+  public float Energy
+  {
+    get
+    {
+      return _energy;
+    }
+  }
+  [SerializeField]
+  private float _max_energy;
+  public float MaxEnergy
+  {
+    get
+    {
+      return _max_energy;
+    }
+  }
   [SerializeField]
   private float _speed; // 0 <= speed <= 10
 
