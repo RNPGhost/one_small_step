@@ -10,7 +10,6 @@ public class AbilityFireball : Ability {
 
   private Character _selected_character;
   private Character _target;
-  private float _speed_multiplier;
 
   public override string GetName() {
     return "Fireball";
@@ -47,7 +46,6 @@ public class AbilityFireball : Ability {
   }
 
   private void Start() {
-    _speed_multiplier = OwningCharacter.GetAbilitySpeedMultiplier();
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
       new Phase(PhaseName.Preparation, 1.8f),
