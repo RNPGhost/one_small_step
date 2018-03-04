@@ -34,8 +34,12 @@ public class AbilityFireball : Ability {
 
   protected override void AbilitySpecificPhaseUpdate(Phase phase) {
     switch (phase.Name) {
+      case PhaseName.Ready:
+        OwningCharacter.UnsetDirectionTarget(_target);
+        break;
       case PhaseName.Preparation:
         _target = _selected_character.AcquireAsTargetBy(OwningCharacter);
+        OwningCharacter.SetDirectionTarget(_target);
         break;
       case PhaseName.Recovery:
         CreateFireball();

@@ -24,7 +24,9 @@ public class Character : MonoBehaviour {
   private StatusStack<bool> _targetable = new StatusStack<bool>(true);
   private StatusStack<bool> _damage_immune = new StatusStack<bool>(false);
   private StatusStack<Character> _targetable_character;
+  private StatusStack<Character> _direction_target = new StatusStack<Character>(null);
   private Ability _active_ability;
+  private Quaternion _initial_rotation;
 
   public bool Targetable {
     get {
@@ -62,6 +64,16 @@ public class Character : MonoBehaviour {
     }
 
     return null;
+  }
+
+  public void SetDirectionTarget(Character target)
+  {
+    _direction_target.SetValue(target);
+  }
+
+  public void UnsetDirectionTarget(Character target)
+  {
+    _direction_target.UnsetValue(target);
   }
 
   public void Interrupt() {
@@ -104,5 +116,25 @@ public class Character : MonoBehaviour {
   private void Start()
   {
     _targetable_character = new StatusStack<Character>(this);
+    _initial_rotation = transform.rotation;
+  }
+
+  private void Update()
+  {
+    LookTowardsTarget();
+  }
+
+  private void LookTowardsTarget()
+  {
+    Character target = _direction_target.GetValue();
+    if (target != null)
+    {
+      Vector3 look_direction = new Vector3(target.gameObject.transform.position.x - gameObject.transform.position.x, 0, target.gameObject.transform.position.z - gameObject.transform.position.z);
+      transform.rotation = Quaternion.LookRotation(look_direction);
+    }
+    else if (transform.rotation != _initial_rotation)
+    {
+      transform.rotation = _initial_rotation;
+    }
   }
 }
