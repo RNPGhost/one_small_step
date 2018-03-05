@@ -17,6 +17,14 @@ public class Character : MonoBehaviour {
     }
   }
   [SerializeField]
+  private float _vitality; // 0 <= vitality <= 10
+  [SerializeField]
+  private float _endurance; // 0 <= endurance <= 10
+  [SerializeField]
+  private float _power; // 0 <= power <= 10
+  [SerializeField]
+  private float _speed; // 0 <= speed <= 10
+    
   private float _health;
   public float Health
   {
@@ -25,8 +33,7 @@ public class Character : MonoBehaviour {
       return _health;
     }
   }
-  [SerializeField]
-  private float _max_health;
+  private float _max_health = 100f;
   public float MaxHealth
   {
     get
@@ -34,7 +41,6 @@ public class Character : MonoBehaviour {
       return _max_health;
     }
   }
-  [SerializeField]
   private float _energy;
   public float Energy
   {
@@ -43,8 +49,7 @@ public class Character : MonoBehaviour {
       return _energy;
     }
   }
-  [SerializeField]
-  private float _max_energy;
+  private float _max_energy = 100f;
   public float MaxEnergy
   {
     get
@@ -52,8 +57,6 @@ public class Character : MonoBehaviour {
       return _max_energy;
     }
   }
-  [SerializeField]
-  private float _speed; // 0 <= speed <= 10
 
   private StatusStack<bool> _targetable = new StatusStack<bool>(true);
   private StatusStack<bool> _damage_immune = new StatusStack<bool>(false);
@@ -137,7 +140,12 @@ public class Character : MonoBehaviour {
 
   public float GetAbilitySpeedMultiplier()
   {
-    return 0.8f + _speed * 0.04f;
+    return GetAttributeMultiplier(_speed);
+  }
+
+  public float GetAbilityPowerMultiplier()
+  {
+    return GetAttributeMultiplier(_power);
   }
 
   public void TakeDamage(float damage) {
@@ -151,6 +159,10 @@ public class Character : MonoBehaviour {
   {
     _targetable_character = new StatusStack<Character>(this);
     _initial_rotation = transform.rotation;
+    _max_health *= GetAttributeMultiplier(_vitality);
+    _health = _max_health;
+    _max_energy *= GetAttributeMultiplier(_endurance);
+    _energy = _max_energy;
   }
 
   private void Update()
@@ -170,5 +182,10 @@ public class Character : MonoBehaviour {
     {
       transform.rotation = _initial_rotation;
     }
+  }
+
+  private float GetAttributeMultiplier(float attribute)
+  {
+    return 0.8f + attribute * 0.04f;
   }
 }
