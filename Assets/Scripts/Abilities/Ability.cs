@@ -27,6 +27,9 @@ public abstract class Ability : MonoBehaviour {
   // returns the ability name
   public abstract string GetName();
 
+  // returns the ability energy cost
+  public abstract float GetEnergyCost();
+
   // returns whether this ability was activated
   public bool Activate()
   {
@@ -65,7 +68,7 @@ public abstract class Ability : MonoBehaviour {
   // 
   protected virtual bool IsReadyToBeActivated()
   {
-    return !IsInProgress() && OwningCharacter.IsReadyToActivateAbility();
+    return !IsInProgress() && OwningCharacter.IsReadyToActivateAbility(this);
   }
 
   // carries out any actions that are specific to the ability and to the phase the ability is in
@@ -140,6 +143,7 @@ public abstract class Ability : MonoBehaviour {
         PausePhaseTransition();
         break;
       case PhaseName.Preparation:
+        OwningCharacter.UseEnergy(GetEnergyCost());
         OwningCharacter.SetActiveAbility(this);
         StartAnimation();
         break;

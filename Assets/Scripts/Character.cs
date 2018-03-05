@@ -134,8 +134,8 @@ public class Character : MonoBehaviour {
     return _active_ability != null;
   }
 
-  public bool IsReadyToActivateAbility() {
-    return !AbilityInProgress();
+  public bool IsReadyToActivateAbility(Ability ability) {
+    return !AbilityInProgress() && _energy >= ability.GetEnergyCost();
   }
 
   public float GetAbilitySpeedMultiplier()
@@ -153,6 +153,11 @@ public class Character : MonoBehaviour {
       Debug.Log(_name + " took " + damage + " damage");
       _health = Mathf.Max(_health - damage, 0);
     }
+  }
+
+  public void UseEnergy(float energy_cost)
+  {
+    _energy = Math.Max(_energy - energy_cost, 0f);
   }
   
   private void Start()

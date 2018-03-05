@@ -19,6 +19,6 @@ public class AbilityButton : MonoBehaviour {
   }
 
   private void Update() {
-    _button.interactable = !_ability.IsInProgress() && _ability.OwningCharacter.IsReadyToActivateAbility();
+    _button.interactable = !_ability.IsInProgress() && _ability.OwningCharacter.IsReadyToActivateAbility(_ability);
   }
 }

@@ -14,7 +14,12 @@ public class AbilityFireball : Ability {
   public override string GetName() {
     return "Fireball";
   }
-  
+
+  public override float GetEnergyCost()
+  {
+    return 40f;
+  }
+
   public override void SetTarget(Character character) {
     if (!IsInProgress() && IsValidTarget(character)) {
       _selected_character = character;
