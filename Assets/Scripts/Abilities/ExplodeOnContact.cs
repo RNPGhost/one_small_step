@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
 public class ExplodeOnContact : MonoBehaviour {
-  [SerializeField]
   private float _damage;
-
   private Character _caster;
+
+  public void SetDamage(float damage)
+  {
+    _damage = damage;
+  }
 
   public void SetCaster(Character caster)
   {

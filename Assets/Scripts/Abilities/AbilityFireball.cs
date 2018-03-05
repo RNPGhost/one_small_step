@@ -68,6 +68,7 @@ public class AbilityFireball : Ability {
     fireballMover.SetTarget(_target.gameObject);
     fireballMover.SetSpeed(10 * GetSpeedMultiplier());
     ExplodeOnContact fireballExploder = fireball.GetComponent<ExplodeOnContact>();
+    fireballExploder.SetDamage(10 * OwningCharacter.GetAbilityPowerMultiplier());
     fireballExploder.SetCaster(OwningCharacter);
   }
 }
