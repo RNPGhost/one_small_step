@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Character : MonoBehaviour {
@@ -168,6 +168,7 @@ public class Character : MonoBehaviour {
   private void Update()
   {
     LookTowardsTarget();
+    RegenerateEnergy();
   }
 
   private void LookTowardsTarget()
@@ -182,6 +183,14 @@ public class Character : MonoBehaviour {
     {
       transform.rotation = _initial_rotation;
     }
+  }
+
+  private void RegenerateEnergy()
+  {
+    float regeneration_percentage = 0.05f;
+    float current_energy_multiplier = 0.8f + 0.4f * _energy / _max_energy;
+    float regenerated_energy = regeneration_percentage * _max_energy * current_energy_multiplier * Time.deltaTime;
+    _energy = Math.Min(_energy + regenerated_energy, _max_energy);
   }
 
   private float GetAttributeMultiplier(float attribute)
