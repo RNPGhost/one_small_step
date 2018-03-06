@@ -118,7 +118,11 @@ public class Character : MonoBehaviour {
   }
 
   public void Interrupt() {
-    _active_ability.Interrupt();
+    Debug.Log("Interuption attempt");
+    if (_active_ability != null)
+    {
+      _active_ability.Interrupt();
+    }
   }
 
   public void SetActiveAbility(Ability ability) {
