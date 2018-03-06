@@ -1,6 +1,9 @@
-﻿public class PhaseLoop {
+﻿using UnityEngine;
+
+public class PhaseLoop {
   private int _index = 0;
   private Phase[] _phases;
+  private float _last_left_ready_phase;
 
   public PhaseLoop(Phase[] phases) {
     _phases = phases;
@@ -11,6 +14,10 @@
   }
 
   public void GoToNext() {
+    if (Current().Name == PhaseName.Ready)
+    {
+      _last_left_ready_phase = Time.time;
+    }
     _index++;
     if (_index >= _phases.Length) {
       _index -= _phases.Length;
@@ -44,5 +51,10 @@
     }
 
     return total;
+  }
+
+  public float GetTimeSinceLastReady()
+  {
+    return Time.time - _last_left_ready_phase;
   }
 }
