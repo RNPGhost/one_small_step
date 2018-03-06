@@ -59,8 +59,8 @@ public class SweepAbility : Ability
   {
     SetPhases(new Phase[] {
       new Phase(PhaseName.Ready),
-      new Phase(PhaseName.Preparation, 0.6f),
-      new Phase(PhaseName.Recovery, 1.5f),
+      new Phase(PhaseName.Preparation, 0.7f),
+      new Phase(PhaseName.Recovery, 1.4f),
       });
   }
 
