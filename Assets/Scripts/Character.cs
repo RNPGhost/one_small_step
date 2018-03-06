@@ -61,12 +61,19 @@ public class Character : MonoBehaviour {
       return _max_energy;
     }
   }
+  private Ability _active_ability;
+  public Ability ActiveAbility
+  {
+    get
+    {
+      return _active_ability;
+    }
+  }
 
   private StatusStack<bool> _targetable = new StatusStack<bool>(true);
   private StatusStack<bool> _damage_immune = new StatusStack<bool>(false);
   private StatusStack<Character> _targetable_character;
   private StatusStack<Character> _direction_target = new StatusStack<Character>(null);
-  private Ability _active_ability;
   private Quaternion _initial_rotation;
 
   public bool Targetable {
