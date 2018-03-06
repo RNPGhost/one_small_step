@@ -53,6 +53,7 @@ public abstract class Ability : MonoBehaviour {
     if (Interruptable()) {
       PausePhaseTransition();
       SetToNextReadyPhase();
+      PhaseUpdate(_phases.Current());
       return true;
     }
 
