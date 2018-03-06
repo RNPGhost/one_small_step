@@ -181,8 +181,7 @@ public class Character : MonoBehaviour {
     Character target = _direction_target.GetValue();
     if (target != null)
     {
-      Vector3 look_direction = new Vector3(target.gameObject.transform.position.x - gameObject.transform.position.x, 0, target.gameObject.transform.position.z - gameObject.transform.position.z);
-      transform.rotation = Quaternion.LookRotation(look_direction);
+      transform.LookAt(new Vector3(target.gameObject.transform.position.x, transform.position.y, target.gameObject.transform.position.z));
     }
     else if (transform.rotation != _initial_rotation)
     {
