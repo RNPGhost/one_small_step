@@ -24,6 +24,10 @@ public class Character : MonoBehaviour {
   private float _power; // 0 <= power <= 10
   [SerializeField]
   private float _speed; // 0 <= speed <= 10
+  [SerializeField]
+  private float _base_health;
+  [SerializeField]
+  private float _base_energy;
     
   private float _health;
   public float Health
@@ -33,7 +37,7 @@ public class Character : MonoBehaviour {
       return _health;
     }
   }
-  private float _max_health = 100f;
+  private float _max_health;
   public float MaxHealth
   {
     get
@@ -49,7 +53,7 @@ public class Character : MonoBehaviour {
       return _energy;
     }
   }
-  private float _max_energy = 100f;
+  private float _max_energy;
   public float MaxEnergy
   {
     get
@@ -164,9 +168,9 @@ public class Character : MonoBehaviour {
   {
     _targetable_character = new StatusStack<Character>(this);
     _initial_rotation = transform.rotation;
-    _max_health *= GetAttributeMultiplier(_vitality);
+    _max_health = _base_health * GetAttributeMultiplier(_vitality);
     _health = _max_health;
-    _max_energy *= GetAttributeMultiplier(_endurance);
+    _max_energy = _base_energy * GetAttributeMultiplier(_endurance);
     _energy = _max_energy;
   }
 
