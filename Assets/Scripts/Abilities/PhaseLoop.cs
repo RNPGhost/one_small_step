@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PhaseLoop {
+﻿public class PhaseLoop {
   private int _index = 0;
   private Phase[] _phases;
 
