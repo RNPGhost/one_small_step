@@ -78,6 +78,11 @@ public abstract class Ability : MonoBehaviour {
     }
   }
 
+  public float GetTotalAbilityTime()
+  {
+    return _phases.GetTimeSinceLastReady() + GetRemainingTime();
+  }
+
   // 
   protected virtual bool IsReadyToBeActivated()
   {
