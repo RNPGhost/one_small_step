@@ -23,8 +23,9 @@ public class PhaseLoop {
 
   public void GoToNext(PhaseName name) {
     for (int i = 0; i < _phases.Length; i++) {
-      if (_phases[(_index + i) % _phases.Length].Name == name) {
-        _index = i;
+      int phase_index = (_index + i) % _phases.Length;
+      if (_phases[phase_index].Name == name) {
+        _index = phase_index;
         break;
       }
     }
