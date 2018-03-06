@@ -66,6 +66,18 @@ public abstract class Ability : MonoBehaviour {
     return !(_current_phase_name == PhaseName.Ready);
   }
 
+  public float GetRemainingTime()
+  {
+    if (IsInProgress())
+    {
+      return _next_phase_change - Time.time + _phases.GetTimeTillNext(PhaseName.Ready);
+    }
+    else
+    {
+      return 0f;
+    }
+  }
+
   // 
   protected virtual bool IsReadyToBeActivated()
   {
