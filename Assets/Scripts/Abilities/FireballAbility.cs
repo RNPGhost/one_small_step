@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AbilityFireball : Ability {
+public class FireballAbility : Ability {
   [SerializeField]
   private float _damage;
   [SerializeField]
