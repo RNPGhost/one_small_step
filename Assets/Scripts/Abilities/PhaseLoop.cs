@@ -26,4 +26,23 @@
       }
     }
   }
+
+  public float GetTimeTillNext(PhaseName name)
+  {
+    float total = 0;
+    for (int i = 1; i < _phases.Length; i++)
+    {
+      Phase phase = _phases[(_index + i) % _phases.Length];
+      if (phase.Name != name)
+      {
+        total += phase.Duration;
+      }
+      else
+      {
+        break;
+      }
+    }
+
+    return total;
+  }
 }
