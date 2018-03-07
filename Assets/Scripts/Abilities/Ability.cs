@@ -54,6 +54,7 @@ public abstract class Ability : MonoBehaviour {
       PausePhaseTransition();
       SetToNextReadyPhase();
       PhaseUpdate(_phases.Current());
+      StartInterruptAnimation();
       return true;
     }
 
@@ -174,6 +175,11 @@ public abstract class Ability : MonoBehaviour {
   {
     Animator.SetFloat(GetName() + "Speed", _speed_multiplier);
     Animator.Play(GetName());
+  }
+
+  private void StartInterruptAnimation()
+  {
+    Animator.Play("Fall");
   }
 
   private void UpdatePhaseVariables(Phase phase) {
