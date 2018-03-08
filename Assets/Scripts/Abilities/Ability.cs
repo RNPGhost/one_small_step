@@ -174,12 +174,12 @@ public abstract class Ability : MonoBehaviour {
   private void StartAnimation()
   {
     Animator.SetFloat(GetName() + "Speed", _speed_multiplier);
-    Animator.Play(GetName());
+    Animator.SetTrigger(GetName() + "Trigger");
   }
 
   private void StartInterruptAnimation()
   {
-    Animator.Play("Fall");
+    Animator.SetTrigger("InterruptedTrigger");
   }
 
   private void UpdatePhaseVariables(Phase phase) {
