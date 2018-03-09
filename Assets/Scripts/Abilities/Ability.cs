@@ -52,6 +52,7 @@ public abstract class Ability : MonoBehaviour {
   public virtual bool Interrupt() {
     if (Interruptable()) {
       PausePhaseTransition();
+      OwningCharacter.Silence(2.5f);
       SetToNextReadyPhase();
       PhaseUpdate(_phases.Current());
       StartInterruptAnimation();
