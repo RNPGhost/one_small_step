@@ -84,6 +84,14 @@ public abstract class Ability : MonoBehaviour {
     return _phases.GetTimeSinceLastReady() + GetRemainingTime();
   }
 
+  // returns a number between 0 and 1 that represents the ability's progress to its next ready state
+  public float Progress()
+  {
+    float total_ability_time = GetTotalAbilityTime();
+    return Mathf.Min((total_ability_time - GetRemainingTime()) / total_ability_time, 1f);
+
+  }
+
   // 
   protected virtual bool IsReadyToBeActivated()
   {

@@ -76,6 +76,9 @@ public class Character : MonoBehaviour {
   private StatusStack<Character> _direction_target = new StatusStack<Character>(null);
   private Quaternion _initial_rotation;
 
+  private float _silence_end = 0;
+  private float _silence_duration = 0;
+
   public bool Targetable {
     get {
       return _targetable.GetValue();
@@ -132,6 +135,16 @@ public class Character : MonoBehaviour {
     }
   }
 
+  public void Silence(float duration)
+  {
+    float new_silence_end = Time.time + duration;
+    if (new_silence_end > _silence_end)
+    {
+      _silence_end = new_silence_end;
+      _silence_duration = duration;
+    }
+  }
+
   public void SetActiveAbility(Ability ability) {
     _active_ability = ability;
   }
@@ -150,7 +163,17 @@ public class Character : MonoBehaviour {
   }
 
   public bool IsReadyToActivateAbility(Ability ability) {
-    return !AbilityInProgress() && _energy >= ability.GetEnergyCost();
+    return !AbilityInProgress() && _energy >= ability.GetEnergyCost() && !IsSilenced();
+  }
+
+  public float GetProgressTillReadyToActivateAbility()
+  {
+    float active_ability_progress = 1f;
+    if (_active_ability != null)
+    {
+      active_ability_progress = _active_ability.Progress();
+    }
+    return Mathf.Min(active_ability_progress, GetSilenceProgress());
   }
 
   public float GetAbilitySpeedMultiplier()
@@ -215,5 +238,15 @@ public class Character : MonoBehaviour {
   private float GetAttributeMultiplier(float attribute)
   {
     return 0.8f + attribute * 0.04f;
+  }
+
+  private bool IsSilenced()
+  {
+    return Time.time < _silence_end;
+  }
+
+  private float GetSilenceProgress()
+  {
+    return Mathf.Min((_silence_duration - (_silence_end - Time.time)) / _silence_duration, 1f);
   }
 }
