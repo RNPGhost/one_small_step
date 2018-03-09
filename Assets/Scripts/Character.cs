@@ -17,6 +17,15 @@ public class Character : MonoBehaviour {
     }
   }
   [SerializeField]
+  private GameObject _centre_position;
+  public GameObject CentrePosition
+  {
+    get
+    {
+      return _centre_position;
+    }
+  }
+  [SerializeField]
   private float _vitality; // 0 <= vitality <= 10
   [SerializeField]
   private float _endurance; // 0 <= endurance <= 10
